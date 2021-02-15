@@ -16,24 +16,24 @@ if(!file.exists("UCI HAR Dataset")){
 #we are now in business. Have data, all those beautiful files
 #defining various data lego blocks
 
-activityLabels <- read.table("activity_labels.txt", col.names = c("exNum", "exType"))
-features <- read.table("features.txt", col.names = c("Useless", "colNames"))
+activityLabels <- read.table("UCI HAR Dataset/activity_labels.txt", col.names = c("exNum", "exType"))
+features <- read.table("UCI HAR Dataset/features.txt", col.names = c("Useless", "colNames"))
 
 #train
-subjectsTrain <- read.tables("UCI HAR Dataset/test/subject_test.txt", 
-                                        col.names = "subTrainIdent")
-trainData <- read.tables("UCI HAR Dataset/test/X_test.txt", 
+subjectsTrain <- read.tables("UCI HAR Dataset/train/subject_test.txt", 
+                                        col.names = "identif")
+trainData <- read.tables("UCI HAR Dataset/train/X_test.txt", 
                                         col.names = features$colNames)
-trainExerIdent <- read.tables("UCI HAR Dataset/test/X_test.txt",
-                                        col.names = "trainExer_type")
+trainExerIdent <- read.tables("UCI HAR Dataset/train/X_test.txt",
+                                        col.names = "exerType")
 
-#type
+#test
 subjectsTest <- read.tables("UCI HAR Dataset/test/subject_test.txt", 
-                             col.names = "subTestIdent")
+                             col.names = "identif")
 testData <- read.tables("UCI HAR Dataset/test/X_test.txt", 
                          col.names = features$colNames)
 testExerIdent <- read.tables("UCI HAR Dataset/test/X_test.txt",
-                              col.names = "testExer_type")
+                              col.names = "exerType")
 
 #we now have some blocks to assemble. Join the datasets
 
@@ -45,10 +45,19 @@ threeblock <- rbind(trainData, testData)
 
 thanos <- cbind(oneBlock, twoBlock, threeBlock)
 
+#I'll be honest, getting to this point was incredibly difficult for me
+#and this is my fourth language
 #let's get this in tidyverse
 
 thanos <- tbl_df(thanos)
 
+#split down to measurements on means or standard deviations
+
+specific <- thanos %>% select(identif, exerType, contains("mean"|"std"))
+#sidenote, std is an awful shortened name for standard deviation, like come on
+
+#but we now have our special <3 little <3 table
+#time to clean
 
 
 
