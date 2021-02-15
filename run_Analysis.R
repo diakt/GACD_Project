@@ -1,4 +1,4 @@
-library(dplyr)
+#library(dplyr)
 
 downloadLink <- "https://d396qusza40orc.cloudfront.net/
                 getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
@@ -45,21 +45,22 @@ threeBlock <- rbind(trainData, testData)
 
 thanos <- cbind(oneBlock, twoBlock, threeBlock)
 thanos$exerType <- activityLabels[thanos$exerType, 2]
-
+print("After?")
 #I'll be honest, getting to this point was incredibly difficult for me
 #and this is my fourth language
 #let's get this in tidyverse
 
 thanos <- tbl_df(thanos)
-
+print("dingo")
 #split down to measurements on means or standard deviations
 
-specific <- thanos %>% select(identif, exerType, contains("mean"|"std"))
+specific <- thanos %>% select(identif, exerType, contains("mean"), contains("std"))
+print("Charlatan")
 #sidenote, std is an awful shortened name for standard deviation, like come on
 #print(specific)
 #but we now have our special <3 little <3 table
 #time to clean
-
+print("this?")
 names(specific) <- gsub("^t", "Time")
 names(specific) <- gsub("^f", "Frequency") #done with initials
 names(specific) <- gsub("Acc", "Acceleration")
@@ -71,7 +72,7 @@ names(specific) <- gsub("gravity", "Gravity")
 names(specific) <- gsub("mag", "Magnitude")
 names(specific) <- gsub("-", "")
 
-
+print("honey?")
 # I also thought about replacing jerk, but it turns out that that's a real metric
 #jerk is the third derivative, also known as d'''
 #guess what the fourth, fifth, and sixth derivative are?
@@ -87,7 +88,7 @@ returnedData <- specific %>% group_by(identif, exerType) %>% summarize_all(funs(
 
 #Our special table is returned, or what it is in r
 
-returnedData
+print(returnedData)
 
 
 
