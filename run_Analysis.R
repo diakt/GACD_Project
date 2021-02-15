@@ -16,7 +16,7 @@ if(!file.exists("UCI HAR Dataset")){
 #defining various data lego blocks
 #print(read.table("UCI HAR Dataset/activity_labels.txt"))
 activityLabels <- read.table("UCI HAR Dataset/activity_labels.txt", col.names = c("exNum", "exType"))
-print(activityLabels)
+#print(activityLabels)
 features <- read.table("UCI HAR Dataset/features.txt", col.names = c("Useless", "colNames"))
 
 #train
@@ -39,7 +39,7 @@ testExerIdent <- read.table("UCI HAR Dataset/test/y_test.txt",
 
 oneBlock <- rbind(subjectsTrain, subjectsTest)
 twoBlock <- rbind(trainExerIdent, testExerIdent)
-threeblock <- rbind(trainData, testData)
+threeBlock <- rbind(trainData, testData)
 
 #and cook that shit up quay
 
