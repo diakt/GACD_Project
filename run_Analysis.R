@@ -66,7 +66,10 @@ names(specific) <- gsub("Freq", "Frequency")
 names(specific) <- gsub("Gyro", "Gyroscope")
 names(specific) <- gsub("mean", "Mean")
 names(specific) <- gsub("std", "StandardDeviation")
+names(specific) <- gsub("gravity", "Gravity")
+names(specific) <- gsub("mag", "Magnitude")
 names(specific) <- gsub("-", "")
+
 
 # I also thought about replacing jerk, but it turns out that that's a real metric
 #jerk is the third derivative, also known as d'''
@@ -75,8 +78,16 @@ names(specific) <- gsub("-", "")
 #snap, crackle, and pop
 
 #I wish I was kidding
+#Let's convert the activity number associates to the activity names
 
+specific$exerType <- activityLabels[specific$exerType, 2]
 
+#And create our mean-cycle group
+returnedData <- specific %>% group_by(identif, exerType) %>% summarize_all(funs(mean))
+
+#Our special table is returned, or what it is in r
+
+returnedData
 
 
 
