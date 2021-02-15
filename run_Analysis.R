@@ -1,4 +1,4 @@
-#library(dplyr)
+library(dplyr)
 
 downloadLink <- "https://d396qusza40orc.cloudfront.net/
                 getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
@@ -50,7 +50,7 @@ print("After?")
 #and this is my fourth language
 #let's get this in tidyverse
 
-thanos <- tbl_df(thanos)
+thanos <- tibble::as_tibble(thanos)
 print("dingo")
 #split down to measurements on means or standard deviations
 
@@ -61,16 +61,16 @@ print("Charlatan")
 #but we now have our special <3 little <3 table
 #time to clean
 print("this?")
-names(specific) <- gsub("^t", "Time")
-names(specific) <- gsub("^f", "Frequency") #done with initials
-names(specific) <- gsub("Acc", "Acceleration")
-names(specific) <- gsub("Freq", "Frequency")
-names(specific) <- gsub("Gyro", "Gyroscope")
-names(specific) <- gsub("mean", "Mean")
-names(specific) <- gsub("std", "StandardDeviation")
-names(specific) <- gsub("gravity", "Gravity")
-names(specific) <- gsub("mag", "Magnitude")
-names(specific) <- gsub("-", "")
+names(specific) <- gsub("^t", "Time", names(specific))
+names(specific) <- gsub("^f", "Frequency", names(specific)) #done with initials
+names(specific) <- gsub("Acc", "Acceleration", names(specific))
+names(specific) <- gsub("Freq", "Frequency", names(specific))
+names(specific) <- gsub("Gyro", "Gyroscope", names(specific))
+names(specific) <- gsub("mean", "Mean", names(specific))
+names(specific) <- gsub("std", "StandardDeviation", names(specific))
+names(specific) <- gsub("gravity", "Gravity", names(specific))
+names(specific) <- gsub("mag", "Magnitude", names(specific))
+names(specific) <- gsub("-", "", names(specific))
 
 print("honey?")
 # I also thought about replacing jerk, but it turns out that that's a real metric
