@@ -15,24 +15,25 @@ if(!file.exists("UCI HAR Dataset")){
 
 #we are now in business. Have data, all those beautiful files
 #defining various data lego blocks
-
+print(read.table("UCI HAR Dataset/activity_labels.txt"))
 activityLabels <- read.table("UCI HAR Dataset/activity_labels.txt", col.names = c("exNum", "exType"))
+print(activityLabels)
 features <- read.table("UCI HAR Dataset/features.txt", col.names = c("Useless", "colNames"))
 
 #train
-subjectsTrain <- read.tables("UCI HAR Dataset/train/subject_test.txt", 
+subjectsTrain <- read.table("UCI HAR Dataset/train/subject_test.txt", 
                                         col.names = "identif")
-trainData <- read.tables("UCI HAR Dataset/train/X_test.txt", 
+trainData <- read.table("UCI HAR Dataset/train/X_test.txt", 
                                         col.names = features$colNames)
-trainExerIdent <- read.tables("UCI HAR Dataset/train/X_test.txt",
+trainExerIdent <- read.table("UCI HAR Dataset/train/X_test.txt",
                                         col.names = "exerType")
 
 #test
-subjectsTest <- read.tables("UCI HAR Dataset/test/subject_test.txt", 
+subjectsTest <- read.table("UCI HAR Dataset/test/subject_test.txt", 
                              col.names = "identif")
-testData <- read.tables("UCI HAR Dataset/test/X_test.txt", 
+testData <- read.table("UCI HAR Dataset/test/X_test.txt", 
                          col.names = features$colNames)
-testExerIdent <- read.tables("UCI HAR Dataset/test/X_test.txt",
+testExerIdent <- read.table("UCI HAR Dataset/test/X_test.txt",
                               col.names = "exerType")
 
 #we now have some blocks to assemble. Join the datasets
@@ -44,6 +45,7 @@ threeblock <- rbind(trainData, testData)
 #and cook that shit up quay
 
 thanos <- cbind(oneBlock, twoBlock, threeBlock)
+thanos$exerType <- activityLabels[thanos$exerType, 2]
 
 #I'll be honest, getting to this point was incredibly difficult for me
 #and this is my fourth language
@@ -80,14 +82,13 @@ names(specific) <- gsub("-", "")
 #I wish I was kidding
 #Let's convert the activity number associates to the activity names
 
-specific$exerType <- activityLabels[specific$exerType, 2]
 
 #And create our mean-cycle group
 returnedData <- specific %>% group_by(identif, exerType) %>% summarize_all(funs(mean))
 
 #Our special table is returned, or what it is in r
 
-returnedData
+print(read.table(returnedData))
 
 
 
