@@ -4,28 +4,27 @@ downloadLink <- "https://d396qusza40orc.cloudfront.net/
                 getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 fileName <- "project.zip"
 
-if(!file.exists("getdata_projectfiles_UCI HAR Dataset.zip")){
-        download.file(downloadLink, fileName, method = "curl")
-}
-
 
 if(!file.exists("UCI HAR Dataset")){
+        if(!file.exists("getdata_projectfiles_UCI HAR Dataset.zip")){
+                download.file(downloadLink, fileName, method = "curl")
+        } 
         unzip("project.zip")
 }
 
 #we are now in business. Have data, all those beautiful files
 #defining various data lego blocks
-print(read.table("UCI HAR Dataset/activity_labels.txt"))
+#print(read.table("UCI HAR Dataset/activity_labels.txt"))
 activityLabels <- read.table("UCI HAR Dataset/activity_labels.txt", col.names = c("exNum", "exType"))
 print(activityLabels)
 features <- read.table("UCI HAR Dataset/features.txt", col.names = c("Useless", "colNames"))
 
 #train
-subjectsTrain <- read.table("UCI HAR Dataset/train/subject_test.txt", 
+subjectsTrain <- read.table("UCI HAR Dataset/train/subject_train.txt", 
                                         col.names = "identif")
-trainData <- read.table("UCI HAR Dataset/train/X_test.txt", 
+trainData <- read.table("UCI HAR Dataset/train/X_train.txt", 
                                         col.names = features$colNames)
-trainExerIdent <- read.table("UCI HAR Dataset/train/X_test.txt",
+trainExerIdent <- read.table("UCI HAR Dataset/train/y_train.txt",
                                         col.names = "exerType")
 
 #test
@@ -33,7 +32,7 @@ subjectsTest <- read.table("UCI HAR Dataset/test/subject_test.txt",
                              col.names = "identif")
 testData <- read.table("UCI HAR Dataset/test/X_test.txt", 
                          col.names = features$colNames)
-testExerIdent <- read.table("UCI HAR Dataset/test/X_test.txt",
+testExerIdent <- read.table("UCI HAR Dataset/test/y_test.txt",
                               col.names = "exerType")
 
 #we now have some blocks to assemble. Join the datasets
@@ -57,7 +56,7 @@ thanos <- tbl_df(thanos)
 
 specific <- thanos %>% select(identif, exerType, contains("mean"|"std"))
 #sidenote, std is an awful shortened name for standard deviation, like come on
-
+#print(specific)
 #but we now have our special <3 little <3 table
 #time to clean
 
@@ -88,7 +87,7 @@ returnedData <- specific %>% group_by(identif, exerType) %>% summarize_all(funs(
 
 #Our special table is returned, or what it is in r
 
-print(read.table(returnedData))
+returnedData
 
 
 
