@@ -59,9 +59,22 @@ specific <- thanos %>% select(identif, exerType, contains("mean"|"std"))
 #but we now have our special <3 little <3 table
 #time to clean
 
+names(specific) <- gsub("^t", "Time")
+names(specific) <- gsub("^f", "Frequency") #done with initials
+names(specific) <- gsub("Acc", "Acceleration")
+names(specific) <- gsub("Freq", "Frequency")
+names(specific) <- gsub("Gyro", "Gyroscope")
+names(specific) <- gsub("mean", "Mean")
+names(specific) <- gsub("std", "StandardDeviation")
+names(specific) <- gsub("-", "")
 
+# I also thought about replacing jerk, but it turns out that that's a real metric
+#jerk is the third derivative, also known as d'''
+#guess what the fourth, fifth, and sixth derivative are?
 
+#snap, crackle, and pop
 
+#I wish I was kidding
 
 
 
